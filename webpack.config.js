@@ -38,4 +38,7 @@ module.exports = {
             template: './src/template.html',
         }),
     ],
-}
+    optimization: {
+        runtimeChunk: 'single',
+    },
+};
