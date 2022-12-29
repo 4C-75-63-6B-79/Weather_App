@@ -1,14 +1,9 @@
 import './style.css';
 
-// import makeSearchBox  from './modules/htmlElements.js';
+import makeDom  from './modules/makeHtmlElements.js';
 
 console.log('weather app');
 
-// makeSearchBox();
+makeDom();
 
 
-
-
-// testGetWeather('Delhi');
-
-// ddd789ed4eb24fc1906155157222512
