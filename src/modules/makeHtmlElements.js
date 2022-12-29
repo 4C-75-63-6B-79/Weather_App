@@ -87,8 +87,8 @@ const DOM = (function() {
         let farenheitBody = makeDiv('farenheit');
         celciusBody.addEventListener('click', tempUnitsClicked);
         farenheitBody.addEventListener('click', tempUnitsClicked);
-        celciusBody.textContent = 'C';
-        farenheitBody.textContent = 'F';
+        celciusBody.textContent = '°C';
+        farenheitBody.textContent = '°F';
         tempUnitBody.appendChild(celciusBody);
         tempUnitBody.appendChild(farenheitBody);
     }
@@ -109,8 +109,9 @@ const DOM = (function() {
     function createSearchBox() {
         const leftInfoBody = document.getElementById('leftInfoBody');
         let searchBox = document.createElement('input');
-        searchBox.setAttribute('type', 'text');
-        searchBox.setAttribute('placeholder', 'Location...');
+        searchBox.setAttribute('id', 'locationSearch');
+        searchBox.setAttribute('type', 'search');
+        searchBox.setAttribute('placeholder', 'Search Location...');
         searchBox.addEventListener('keydown', (event) => {
             if(event.code === 'Enter' || event.code === 'NumpadEnter') {
                 testGetWeather(searchBox.value);
@@ -123,20 +124,19 @@ const DOM = (function() {
         const leftInfoBody = document.getElementById('leftInfoBody');
         let errorReporterBody = makeDiv('error');
         errorReporterBody.setAttribute('data-updateable', 'yes');
-        errorReporterBody.textContent = ' ';
+        errorReporterBody.textContent = 'error';
         leftInfoBody.appendChild(errorReporterBody);
     }
     
-    function createRightInfoSubBody(id, infoTypeText, infoValueText) {
+    function createRightInfoSubBody(id, infoTypeText, infoValueText, url) {
         const rightInfoBody = document.getElementById('rightInfoBody');
         let subBodyMain = makeDiv(null, 'rightInfoSubBody');
         let img = new Image();
-        img.src = '#';
-        img.setAttribute('data-updateable', 'yes');
+        img.src = url;
         let subBodyInfo = makeDiv(null, 'subBodyInfo');
         let infoType = makeDiv(null, 'subBodyInfoType');
         infoType.textContent = infoTypeText;
-        let infoValue = makeDiv(id);
+        let infoValue = makeDiv(id, 'subBodyInfoValue');
         infoValue.setAttribute('data-updateable', 'yes');
         infoValue.textContent = infoValueText;
     
@@ -148,10 +148,10 @@ const DOM = (function() {
     }
     
     function populateRightInfoBody() {
-        createRightInfoSubBody('feelsLike', 'Feels Like', 'C');
-        createRightInfoSubBody('humidity', 'Humidity', '%');
-        createRightInfoSubBody('chanceOfRain', 'Chance Of Rain', '%');
-        createRightInfoSubBody('windSpeed', 'Wind Speed', 'km/h');
+        createRightInfoSubBody('feelsLike', 'Feels Like', 'value °C', imgUrl);
+        createRightInfoSubBody('humidity', 'Humidity', 'value %', imgUrl);
+        createRightInfoSubBody('chanceOfRain', 'Chance Of Rain', 'value %', imgUrl);
+        createRightInfoSubBody('windSpeed', 'Wind Speed', 'value km/h', imgUrl);
         // createRightInfoSubBody('pressure', 'Pressure', '1014');
     }
 
