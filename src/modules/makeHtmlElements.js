@@ -1,4 +1,5 @@
 import testGetWeather from "./getWeatherInfo.js";
+import updateControl from "./updateInfo.js";
 
 import imgUrl from "../assets/images/placeholder.png";
 
@@ -86,6 +87,7 @@ const DOM = (function() {
         let celciusBody = makeDiv('celcius');
         let farenheitBody = makeDiv('farenheit');
         celciusBody.addEventListener('click', tempUnitsClicked);
+        celciusBody.setAttribute('class', 'activeUnit');
         farenheitBody.addEventListener('click', tempUnitsClicked);
         celciusBody.textContent = '°C';
         farenheitBody.textContent = '°F';
@@ -94,8 +96,13 @@ const DOM = (function() {
     }
     
     function tempUnitsClicked(event) {
-        console.log(event.target.textContent);
-        // handle the unit change
+        let unitClicked = event.target;
+        let activeUnit = document.querySelector('.activeUnit');
+        if(!unitClicked.classList.contains('activeUnit')) {
+            activeUnit.classList.remove('activeUnit');
+            unitClicked.classList.add('activeUnit');
+            updateControl(2);
+        }
     }
     
     function createWeatherTypeInfoBody() {
@@ -124,7 +131,7 @@ const DOM = (function() {
         const leftInfoBody = document.getElementById('leftInfoBody');
         let errorReporterBody = makeDiv('error');
         errorReporterBody.setAttribute('data-updateable', 'yes');
-        errorReporterBody.textContent = 'error';
+        errorReporterBody.textContent = '';
         leftInfoBody.appendChild(errorReporterBody);
     }
     
@@ -152,7 +159,7 @@ const DOM = (function() {
         createRightInfoSubBody('humidity', 'Humidity', 'value %', imgUrl);
         createRightInfoSubBody('chanceOfRain', 'Chance Of Rain', 'value %', imgUrl);
         createRightInfoSubBody('windSpeed', 'Wind Speed', 'value km/h', imgUrl);
-        // createRightInfoSubBody('pressure', 'Pressure', '1014');
+        createRightInfoSubBody('pressure', 'Pressure', 'value mb', imgUrl);
     }
 
     return {

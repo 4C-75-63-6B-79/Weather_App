@@ -21,6 +21,7 @@ body {
 #leftInfoBody {
     display: flex;
     flex-direction: column;
+    max-width: 40%;
 }
 
 #location {
@@ -73,6 +74,10 @@ body {
     border-top: 2px solid black;
 }
 
+.activeUnit {
+    font-weight: 700;
+}
+
 #weatherType {
     margin-top: 0.4rem;
     font-size: 2.5rem;
@@ -85,8 +90,8 @@ body {
     border: none;
     outline: none;
     padding-left: 0.4rem;
-    padding-bottom: 0.3rem;
-    font-size: 0.8rem;
+    padding-bottom: 0.2rem;
+    font-size: 0.85rem;
     font-weight: 500;
     border-bottom: 2px solid black;
 }
