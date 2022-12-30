@@ -39,6 +39,10 @@ body {
     line-height: 1;
 }
 
+#time {
+    margin-top: 0.15rem;
+}
+
 #tempInfoBody {
     margin-top: 1rem;
     display: flex;
@@ -203,14 +207,15 @@ body {
     border-radius: 0.25rem;
 }
 
-#values {
+#hourLabels {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
 }
 
-option {
+/*These the labels where time is mentioned under slider*/
+option {   
     padding: .2rem;
     font-size: 1.1rem;
     font-weight: 650;

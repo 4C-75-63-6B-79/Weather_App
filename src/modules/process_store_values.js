@@ -1,14 +1,14 @@
 
 
-const weather = (function(value) {
-    let weatherAttributeValues;
+const weather = (function() {
+    let currentWeatherAttributeValues, hourlyForecastWeatherAttributeValues = [];
 
-    function get(attributeName) {
-        return weatherAttributeValues[attributeName];
+    function getCurrent(attributeName) {
+        return currentWeatherAttributeValues[attributeName];
     }
 
-    function set(data) {
-        weatherAttributeValues = {
+    function setCurrent(data) {
+        currentWeatherAttributeValues = {
             location: data.location.name,
             dayDate: data.location.localtime.split(' ')[0],
             time: data.location.localtime.split(' ')[1],
@@ -34,10 +34,57 @@ const weather = (function(value) {
             }
         }
     }
+
+    function hourlyWeatherDataObjectFactory(data) {
+        let object = {
+            dayDate: data.time.split(' ')[0],
+            time: data.time.split(' ')[1],
+            weatherIcon: data.condition.icon,
+            temperature: {
+                'C': data.temp_c,
+                'F': data.temp_f,
+            },
+            weatherType: data.condition.text,
+            feelsLike: {
+                C: data.feelslike_c,
+                F: data.feelslike_f,
+            },
+            humidity: data.humidity,
+            chanceOfRain: data.chance_of_rain,
+            windSpeed: {
+                kph: data.wind_kph,
+                mph: data.wind_mph,
+            },
+            pressure: {
+                mb: data.pressure_in,
+                in: data.pressure_mb,
+            }
+        }
+        hourlyForecastWeatherAttributeValues.push(object);
+    }
+
+    function setHourlyForecast(data) {
+        let currentHour = currentWeatherAttributeValues['time'].split(':')[0];
+        let todayHourData = data.forecast.forecastday[0].hour.slice(Number(currentHour));
+        let tomorrowHourData = data.forecast.forecastday[0].hour.slice(0,Number(currentHour));
+        let forecast24HourData = todayHourData.concat(tomorrowHourData);
+        todayHourData = [];
+        tomorrowHourData = [];
+        console.log(forecast24HourData);
+        for(let hourData in forecast24HourData) {
+            hourlyWeatherDataObjectFactory(forecast24HourData[hourData]);
+        }
+    }
+
+    function getHourlyForecast(pos, attributeName) {
+        return hourlyForecastWeatherAttributeValues[pos][attributeName];
+    }
     
     return {
-        get,
-        set
+        getCurrent,
+        setCurrent,
+        setHourlyForecast,
+        getHourlyForecast,
     }
 
 })();
@@ -46,12 +93,15 @@ const weather = (function(value) {
 export default function weatherSet_Get(func, option) {
     
     switch(func) {
-        case 'get':
-            return weather.get(option);
+        case 'getCurrent':
+            return weather.getCurrent(option);
             break;
         case 'set':
-            weather.set(option);
+            weather.setCurrent(option);
+            weather.setHourlyForecast(option);
             break;
+        case 'getHourly':
+            console.log(weather.getHourlyForecast(option.pos, option.attributeName)); 
         default:
             break;
     }

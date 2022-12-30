@@ -4,12 +4,14 @@ const update = (function() {
 
     function updateAllDisplayValues() {
         let dataUpdateableElements = Array.from(document.querySelectorAll('[data-updateable]'));
-        // console.log(dataUpdateableElements.length);
+        // console.log(dataUpdateableElements);
         for(let element in dataUpdateableElements) {
             let id = dataUpdateableElements[element].getAttribute('id');
-            let attributeValue = weatherSet_Get('get', id);
+            let attributeValue = weatherSet_Get('getCurrent', id);
             if(id === 'dayDate') {
                 updateDayDate(dataUpdateableElements[element], attributeValue);
+            } else if(id === 'time') {
+                updateTime(dataUpdateableElements[element], attributeValue);
             } else if(id === 'weatherIcon') {
                 updateWeatherIcon(dataUpdateableElements[element], attributeValue);
             } else if(id === 'temperature') {
@@ -22,6 +24,9 @@ const update = (function() {
                 updatePressure(dataUpdateableElements[element], attributeValue);
             } else if(id === 'humidity' || id === 'chanceOfRain') {
                 dataUpdateableElements[element].textContent = attributeValue + " %";
+            } else if(id === 'hourLabels') {
+                updateForeCastSliderLabels(dataUpdateableElements[element]);
+                // console.log(attributeValue);
             } else {
                 dataUpdateableElements[element].textContent = attributeValue;
             }
@@ -31,9 +36,9 @@ const update = (function() {
     function updateTemperatureUnitsChanged() {
         let temperatureElement = document.getElementById('temperature');
         let feelsLikeTempertureElement = document.getElementById('feelsLike');
-        let attributeValue = weatherSet_Get('get', temperatureElement.getAttribute('id'));
+        let attributeValue = weatherSet_Get('getCurrent', temperatureElement.getAttribute('id'));
         updateTemperature(temperatureElement, attributeValue);
-        attributeValue = weatherSet_Get('get', feelsLikeTempertureElement.getAttribute('id'));
+        attributeValue = weatherSet_Get('getCurrent', feelsLikeTempertureElement.getAttribute('id'));
         updateFeelLikeTemperature(feelsLikeTempertureElement, attributeValue);
     }
     
@@ -49,6 +54,11 @@ const update = (function() {
             day = day + 'th';
         }
         element.textContent = weekdays[date.getDay()] + ", " + day + ', ' + months[date.getMonth()] + ' ' + date.getFullYear();
+    }
+
+    function updateTime(element, attributeValue){
+        let time = Number(attributeValue.split(':')[0]) < 10 ? 0 + attributeValue : attributeValue;
+        element.textContent = time;
     }
     
     function updateWeatherIcon(element, attributeValue) {
@@ -71,6 +81,22 @@ const update = (function() {
     
     function updatePressure(element, attributeValue) {
         element.textContent = attributeValue['mb'] + " mb";
+    }
+
+    function updateForeCastSliderLabels(element) {
+        let currentHour = Number(weatherSet_Get('getCurrent', 'time').split(':')[0]);
+        let hourLabels = Array.from(document.querySelectorAll('option'));
+        // console.log(hourLabels);
+        for(let label in hourLabels) {
+            console.log(label);
+            if(label === '0' || label === '8') {
+                hourLabels[label].label = '';
+            } else {
+                currentHour = currentHour + 3;
+                currentHour = currentHour > 23 ? currentHour%23-1 : currentHour;
+                hourLabels[label].label = currentHour < 10 ? `0${currentHour}:00` : `${currentHour}:00`;
+            }
+        }
     }
 
     return {

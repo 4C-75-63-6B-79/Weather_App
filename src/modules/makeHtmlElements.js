@@ -214,8 +214,9 @@ const DOM = (function() {
 
     function createSliderTicks() {
         let datalist = document.createElement('datalist');
-        datalist.setAttribute('id', 'values');
-        for(let i=0; i<8; i++) {
+        datalist.setAttribute('id', 'hourLabels');
+        datalist.setAttribute('data-updateable', 'yes');
+        for(let i=0; i<9; i++) {
             let option = document.createElement('option');
             // option.setAttribute('value', `${i}`); // not using the value attribute as we just want to display the label and the value is directly taken fron the slider 
             option.setAttribute('label', `${i}`); // label is here for me the updatedisplay info will update the label
@@ -236,7 +237,7 @@ const DOM = (function() {
         slider.addEventListener('change', sliderValueChanged);
         sliderControlBody.appendChild(slider);
         let ticks = createSliderTicks(24); // no need to add the ticks to the list attribute of the slider since then it need to be changed each time hourly or daily selected.
-        // slider.setAttribute('list', ticks.getAttribute('id'));
+        // slider.setAttribute('list', ticks.getAttribute('i'))
         sliderControlBody.appendChild(ticks);
     }
 
