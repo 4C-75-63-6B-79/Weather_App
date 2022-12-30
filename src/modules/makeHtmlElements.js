@@ -164,53 +164,53 @@ const DOM = (function() {
 
     function createSilderBody() {
         const body = document.querySelector('body');
-        let slider_sliderControlBody = makeDiv('sliderAndSliderTypeControlBody');
-        body.appendChild(slider_sliderControlBody);
+        let sliderControlBody = makeDiv('sliderControlBody');
+        body.appendChild(sliderControlBody);
     }
 
-    function createSliderTypeControlBody() {
-        const slider_sliderControlBody = document.getElementById('sliderAndSliderTypeControlBody');
-        let sliderTypeControlBody = makeDiv('sliderTypeControlBody');
-        slider_sliderControlBody.appendChild(sliderTypeControlBody);
-    }
+    // function createSliderTypeControlBody() {
+    //     const slider_sliderControlBody = document.getElementById('sliderAndSliderTypeControlBody');
+    //     let sliderTypeControlBody = makeDiv('sliderTypeControlBody');
+    //     slider_sliderControlBody.appendChild(sliderTypeControlBody);
+    // }
 
-    function createSliderTypeControls() {
-        const sliderTypeControlBody = document.getElementById('sliderTypeControlBody');
-        let dailySliderTypeControl = makeDiv('daily','sliderTypeControl');
-        let hourlySliderTypeControl = makeDiv('hourly', 'sliderTypeControl');
-        dailySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
-        hourlySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
-        hourlySliderTypeControl.classList.add('activeSliderTypeControl');
-        dailySliderTypeControl.textContent = 'Daily';
-        hourlySliderTypeControl.textContent = 'Hourly';
-        sliderTypeControlBody.appendChild(hourlySliderTypeControl);
-        sliderTypeControlBody.appendChild(dailySliderTypeControl);
-    }
+    // function createSliderTypeControls() {
+    //     const sliderTypeControlBody = document.getElementById('sliderTypeControlBody');
+    //     let dailySliderTypeControl = makeDiv('daily','sliderTypeControl');
+    //     let hourlySliderTypeControl = makeDiv('hourly', 'sliderTypeControl');
+    //     dailySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
+    //     hourlySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
+    //     hourlySliderTypeControl.classList.add('activeSliderTypeControl');
+    //     dailySliderTypeControl.textContent = 'Daily';
+    //     hourlySliderTypeControl.textContent = 'Hourly';
+    //     sliderTypeControlBody.appendChild(hourlySliderTypeControl);
+    //     sliderTypeControlBody.appendChild(dailySliderTypeControl);
+    // }
 
-    function sliderTypeControlClicked(event) {
-        // console.log(event.target);
-        changeActiveSliderTypeControl(event.target);
-        changeSliderRange();
-    }
+    // function sliderTypeControlClicked(event) {
+    //     // console.log(event.target);
+    //     changeActiveSliderTypeControl(event.target);
+    //     changeSliderRange();
+    // }
 
-    function changeActiveSliderTypeControl(targetElement) {
-        const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
-        if(!targetElement.classList.contains('activeSliderTypeControl')) {
-            activeSliderTypeControl.classList.remove('activeSliderTypeControl');
-            targetElement.classList.add('activeSliderTypeControl');
-        }
-    }  
+    // function changeActiveSliderTypeControl(targetElement) {
+    //     const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
+    //     if(!targetElement.classList.contains('activeSliderTypeControl')) {
+    //         activeSliderTypeControl.classList.remove('activeSliderTypeControl');
+    //         targetElement.classList.add('activeSliderTypeControl');
+    //     }
+    // }  
     
-    function changeSliderRange() {
-        const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
-        const forecastSlider = document.getElementById('forecastSlider');
-        forecastSlider.value = 0;
-        if(activeSliderTypeControl.getAttribute('id') === 'hourly') {
-            forecastSlider.setAttribute('max', '23');
-        } else if(activeSliderTypeControl.getAttribute('id') === 'daily') {
-            forecastSlider.setAttribute('max', '7');
-        }
-    }
+    // function changeSliderRange() {
+    //     const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
+    //     const forecastSlider = document.getElementById('forecastSlider');
+    //     forecastSlider.value = 0;
+    //     if(activeSliderTypeControl.getAttribute('id') === 'hourly') {
+    //         forecastSlider.setAttribute('max', '23');
+    //     } else if(activeSliderTypeControl.getAttribute('id') === 'daily') {
+    //         forecastSlider.setAttribute('max', '7');
+    //     }
+    // }
 
     function createSliderTicks() {
         let datalist = document.createElement('datalist');
@@ -225,7 +225,7 @@ const DOM = (function() {
     }
 
     function createSlider() {
-        const slider_sliderControlBody = document.getElementById('sliderAndSliderTypeControlBody');
+        const sliderControlBody = document.getElementById('sliderControlBody');
         let slider = document.createElement('input');
         slider.setAttribute('id', 'forecastSlider');
         slider.setAttribute('type', 'range');
@@ -234,15 +234,16 @@ const DOM = (function() {
         slider.setAttribute('value', '0');
         slider.setAttribute('step', 'any');
         slider.addEventListener('change', sliderValueChanged);
-        slider_sliderControlBody.appendChild(slider);
+        sliderControlBody.appendChild(slider);
         let ticks = createSliderTicks(24); // no need to add the ticks to the list attribute of the slider since then it need to be changed each time hourly or daily selected.
-        slider_sliderControlBody.appendChild(ticks);
+        // slider.setAttribute('list', ticks.getAttribute('id'));
+        sliderControlBody.appendChild(ticks);
     }
 
     function sliderValueChanged(event) {
         let sliderValue = event.target.value.split('.')[0];
         console.log(sliderValue);
-        // update the display info on the hourly basis or on daily basis
+        // update the display info on the hourly basis
     }
 
     return {
@@ -261,8 +262,8 @@ const DOM = (function() {
         13: createErrorReporterBody(),
         14: populateRightInfoBody(),
         15: createSilderBody(),
-        16: createSliderTypeControlBody(),
-        17: createSliderTypeControls(),
+        // 16: createSliderTypeControlBody(),
+        // 17: createSliderTypeControls(),
         18: createSlider(),
     };
 
