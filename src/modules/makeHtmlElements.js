@@ -20,6 +20,12 @@ const DOM = (function() {
         let mainInfoBody = makeDiv('mainInfoBody');
         body.appendChild(mainInfoBody);
     }
+
+    function createSilderBody() {
+        const body = document.querySelector('body');
+        let slider_sliderControlBody = makeDiv('sliderAndSliderTypeControlBody');
+        body.appendChild(slider_sliderControlBody);
+    }
     
     function createLeftRightInfoBody() {
         const mainInfoBody = document.getElementById('mainInfoBody');
@@ -162,6 +168,83 @@ const DOM = (function() {
         createRightInfoSubBody('pressure', 'Pressure', 'value mb', imgUrl);
     }
 
+    function createSliderTypeControlBody() {
+        const slider_sliderControlBody = document.getElementById('sliderAndSliderTypeControlBody');
+        let sliderTypeControlBody = makeDiv('sliderTypeControlBody');
+        slider_sliderControlBody.appendChild(sliderTypeControlBody);
+    }
+
+    function createSliderTypeControls() {
+        const sliderTypeControlBody = document.getElementById('sliderTypeControlBody');
+        let dailySliderTypeControl = makeDiv('daily','sliderTypeControl');
+        let hourlySliderTypeControl = makeDiv('hourly', 'sliderTypeControl');
+        dailySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
+        hourlySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
+        hourlySliderTypeControl.classList.add('activeSliderTypeControl');
+        dailySliderTypeControl.textContent = 'Daily';
+        hourlySliderTypeControl.textContent = 'Hourly';
+        sliderTypeControlBody.appendChild(hourlySliderTypeControl);
+        sliderTypeControlBody.appendChild(dailySliderTypeControl);
+    }
+
+    function sliderTypeControlClicked(event) {
+        // console.log(event.target);
+        changeActiveSliderTypeControl(event.target);
+        changeSliderRange();
+    }
+
+    function changeActiveSliderTypeControl(targetElement) {
+        const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
+        if(!targetElement.classList.contains('activeSliderTypeControl')) {
+            activeSliderTypeControl.classList.remove('activeSliderTypeControl');
+            targetElement.classList.add('activeSliderTypeControl');
+        }
+    }  
+    
+    function changeSliderRange() {
+        const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
+        const forecastSlider = document.getElementById('forecastSlider');
+        forecastSlider.value = 0;
+        if(activeSliderTypeControl.getAttribute('id') === 'hourly') {
+            forecastSlider.setAttribute('max', '23');
+        } else if(activeSliderTypeControl.getAttribute('id') === 'daily') {
+            forecastSlider.setAttribute('max', '7');
+        }
+    }
+
+    function createSliderTicks() {
+        let datalist = document.createElement('datalist');
+        datalist.setAttribute('id', 'values');
+        for(let i=0; i<8; i++) {
+            let option = document.createElement('option');
+            // option.setAttribute('value', `${i}`); // not using the value attribute as we just want to display the label and the value is directly taken fron the slider 
+            option.setAttribute('label', `${i}`); // label is here for me the updatedisplay info will update the label
+            datalist.appendChild(option);
+        }
+        return datalist;
+    }
+
+    function createSlider() {
+        const slider_sliderControlBody = document.getElementById('sliderAndSliderTypeControlBody');
+        let slider = document.createElement('input');
+        slider.setAttribute('id', 'forecastSlider');
+        slider.setAttribute('type', 'range');
+        slider.setAttribute('min', '0');
+        slider.setAttribute('max', '23');
+        slider.setAttribute('value', '0');
+        slider.setAttribute('step', 'any');
+        slider.addEventListener('change', sliderValueChanged);
+        slider_sliderControlBody.appendChild(slider);
+        let ticks = createSliderTicks(24); // no need to add the ticks to the list attribute of the slider since then it need to be changed each time hourly or daily selected.
+        slider_sliderControlBody.appendChild(ticks);
+    }
+
+    function sliderValueChanged(event) {
+        let sliderValue = event.target.value.split('.')[0];
+        console.log(sliderValue);
+        // update the display info on the hourly basis or on daily basis
+    }
+
     return {
         1: createMainInfoBody(),
         2: createLeftRightInfoBody(),
@@ -176,7 +259,11 @@ const DOM = (function() {
         11: createWeatherTypeInfoBody(),
         12: createSearchBox(),
         13: createErrorReporterBody(),
-        14: populateRightInfoBody()
+        14: populateRightInfoBody(),
+        15: createSilderBody(),
+        16: createSliderTypeControlBody(),
+        17: createSliderTypeControls(),
+        18: createSlider(),
     };
 
 })();

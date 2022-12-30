@@ -8,6 +8,8 @@
 
 body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 #mainInfoBody {
@@ -135,3 +137,48 @@ body {
     font-weight: 650;
 }
 
+#sliderAndSliderTypeControlBody {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#sliderTypeControlBody {
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.sliderTypeControl {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.90rem;
+    line-height: 1;
+    font-weight: 650;
+    border: 2px solid transparent;
+}
+
+.activeSliderTypeControl {
+    border-color: black;
+    border-radius: 0.25rem;
+}
+
+#forecastSlider {
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: white;
+}
+
+#values {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+option {
+    padding: 0;
+}
