@@ -20,12 +20,6 @@ const DOM = (function() {
         let mainInfoBody = makeDiv('mainInfoBody');
         body.appendChild(mainInfoBody);
     }
-
-    function createSilderBody() {
-        const body = document.querySelector('body');
-        let slider_sliderControlBody = makeDiv('sliderAndSliderTypeControlBody');
-        body.appendChild(slider_sliderControlBody);
-    }
     
     function createLeftRightInfoBody() {
         const mainInfoBody = document.getElementById('mainInfoBody');
@@ -166,6 +160,12 @@ const DOM = (function() {
         createRightInfoSubBody('chanceOfRain', 'Chance Of Rain', 'value %', imgUrl);
         createRightInfoSubBody('windSpeed', 'Wind Speed', 'value km/h', imgUrl);
         createRightInfoSubBody('pressure', 'Pressure', 'value mb', imgUrl);
+    }
+
+    function createSilderBody() {
+        const body = document.querySelector('body');
+        let slider_sliderControlBody = makeDiv('sliderAndSliderTypeControlBody');
+        body.appendChild(slider_sliderControlBody);
     }
 
     function createSliderTypeControlBody() {
