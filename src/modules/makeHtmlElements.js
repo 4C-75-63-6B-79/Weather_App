@@ -2,6 +2,11 @@ import testGetWeather from "./getWeatherInfo.js";
 import updateControl from "./updateInfo.js";
 
 import imgUrl from "../assets/images/placeholder.png";
+import feelsLike from "../assets/images/feelsLike.svg";
+import humidity from "../assets/images/humidity.svg";
+import chanceOfRain from "../assets/images/chanceOfRain.svg";
+import windSpeed from "../assets/images/windSpeed.svg";
+import pressure from "../assets/images/pressure.svg";
 
 const DOM = (function() {
     function makeDiv(id = null, className = null) {
@@ -155,11 +160,11 @@ const DOM = (function() {
     }
     
     function populateRightInfoBody() {
-        createRightInfoSubBody('feelsLike', 'Feels Like', 'value °C', imgUrl);
-        createRightInfoSubBody('humidity', 'Humidity', 'value %', imgUrl);
-        createRightInfoSubBody('chanceOfRain', 'Chance Of Rain', 'value %', imgUrl);
-        createRightInfoSubBody('windSpeed', 'Wind Speed', 'value km/h', imgUrl);
-        createRightInfoSubBody('pressure', 'Pressure', 'value mb', imgUrl);
+        createRightInfoSubBody('feelsLike', 'Feels Like', 'value °C', feelsLike);
+        createRightInfoSubBody('humidity', 'Humidity', 'value %', humidity);
+        createRightInfoSubBody('chanceOfRain', 'Chance Of Rain', 'value %', chanceOfRain);
+        createRightInfoSubBody('windSpeed', 'Wind Speed', 'value km/h', windSpeed);
+        createRightInfoSubBody('pressure', 'Pressure', 'value mb', pressure);
     }
 
     function createSilderBody() {

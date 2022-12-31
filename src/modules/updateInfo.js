@@ -5,7 +5,15 @@ const update = (function() {
     function updateAllDisplayValues(dataCategory, hrs) {
         // console.log(dataCategory + ' ' + hrs);
 
-        if(!dataCategory) { //  we don't need to update these value when forecast slider value is changed
+        // we don't want these functions to be called when we are changing the slider value
+        // but we want these function to be called when the page is loaded for first time or new location is entered
+        // when the slider is in current hour range we want the values to be taken from the current data not forecast data
+        // when slider value is changed in current hour range we send null in both the data cat and hrs variable
+        // on the first load or on loaction entered the data cat and hrs is undefined
+        // so these functions are called on first load but not when slider value is changed in the current hour range
+        // as we are sending null in the function parameters
+
+        if(dataCategory === undefined) { 
             updateLocation();
             updateForecastSliderValue();
             updateForeCastSliderLabels();
@@ -54,7 +62,10 @@ const update = (function() {
         let element = document.getElementById('time');
         let id = element.getAttribute('id');
         let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
-        if(dataCategory) {
+        // we want the time to update on change of the slider but the time on loading of new loaction should be taken from current
+        // when the slider is changed we send the data category value then the value of time is updated according to the forecast slider value of time
+        // when we change the slider in the current hour range we send null in data cat value then also the value of time need to be updated according to fore cast slider value
+        if(dataCategory || dataCategory === null) {
             let min = processSliderValue('min');
             attributeValue = attributeValue.split(':')[0] + ':' + min;
         } else {
@@ -167,6 +178,8 @@ const update = (function() {
             hrs = null;
             dataCategory = null;
         }
+        // hrs = processSliderValue('hrs');
+        // dataCategory = 'getHourly';
         updateAllDisplayValues(dataCategory, hrs);
     }
 
