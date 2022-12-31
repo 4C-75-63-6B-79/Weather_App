@@ -1,13 +1,14 @@
 
 
 const weather = (function() {
-    let currentWeatherAttributeValues, hourlyForecastWeatherAttributeValues = [];
+    let currentWeatherAttributeValues, hourlyForecastWeatherAttributeValues;
 
     function getCurrent(attributeName) {
         return currentWeatherAttributeValues[attributeName];
     }
 
     function setCurrent(data) {
+        currentWeatherAttributeValues = {};
         currentWeatherAttributeValues = {
             location: data.location.name,
             dayDate: data.location.localtime.split(' ')[0],
@@ -66,14 +67,16 @@ const weather = (function() {
     function setHourlyForecast(data) {
         let currentHour = currentWeatherAttributeValues['time'].split(':')[0];
         let todayHourData = data.forecast.forecastday[0].hour.slice(Number(currentHour));
-        let tomorrowHourData = data.forecast.forecastday[0].hour.slice(0,Number(currentHour));
+        let tomorrowHourData = data.forecast.forecastday[1].hour.slice(0,Number(currentHour));
         let forecast24HourData = todayHourData.concat(tomorrowHourData);
         todayHourData = [];
         tomorrowHourData = [];
         // console.log(forecast24HourData);
+        hourlyForecastWeatherAttributeValues = [];
         for(let hourData in forecast24HourData) {
             hourlyWeatherDataObjectFactory(forecast24HourData[hourData]);
         }
+        // console.log(hourlyForecastWeatherAttributeValues);
     }
 
     function getHourlyForecast(pos, attributeName) {

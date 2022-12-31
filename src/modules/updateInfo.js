@@ -3,7 +3,14 @@ import weatherSet_Get from "./process_store_values";
 const update = (function() {
 
     function updateAllDisplayValues(dataCategory, hrs) {
-        updateLocation();
+        // console.log(dataCategory + ' ' + hrs);
+
+        if(!dataCategory) { //  we don't need to update these value when forecast slider value is changed
+            updateLocation();
+            updateForecastSliderValue();
+            updateForeCastSliderLabels();
+        }
+
         updateDayDate(dataCategory, hrs);
         updateTime(dataCategory, hrs);
         updateWeatherIcon(dataCategory, hrs);
@@ -14,7 +21,6 @@ const update = (function() {
         updateChanceOfRain(dataCategory, hrs);
         updateWindSpeed(dataCategory, hrs);
         updatePressure(dataCategory, hrs);
-        updateForeCastSliderLabels();
     }
 
     function updateLocation() {
@@ -49,13 +55,12 @@ const update = (function() {
         let id = element.getAttribute('id');
         let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
         if(dataCategory) {
-            // console.log(attributeValue);
             let min = processSliderValue('min');
             attributeValue = attributeValue.split(':')[0] + ':' + min;
         } else {
             attributeValue = Number(attributeValue.split(':')[0]) < 10 ? 0 + attributeValue : attributeValue;
         }
-        
+        // console.log(attributeValue);
         element.textContent = attributeValue;
     }
     
@@ -117,6 +122,13 @@ const update = (function() {
         element.textContent = attributeValue['mb'] + " mb";
     }
 
+    function updateForecastSliderValue() {
+        const forecastSlider = document.getElementById('forecastSlider');
+        let currentMin = Number(weatherSet_Get('getCurrent', 'time').split(':')[1]);
+        forecastSlider.value = `${Number(currentMin)}`;
+        // forecastSlider.value = '0';
+    }
+
     function updateForeCastSliderLabels() {
         let currentHour = Number(weatherSet_Get('getCurrent', 'time').split(':')[0]);
         let hourLabels = Array.from(document.querySelectorAll('option'));
@@ -130,17 +142,31 @@ const update = (function() {
                 currentHour = currentHour > 23 ? currentHour%23-1 : currentHour;
                 hourLabels[label].label = currentHour < 10 ? `0${currentHour}:00` : `${currentHour}:00`;
             }
-        }
+        }        
     }
 
     function updateTemperatureUnitsChanged() {
-        updateTemperature();
-        updateFeelLikeTemperature();
+        let dataCategory, hrs;
+        if(! (processSliderValue('hrs') === 0)) {
+            hrs = processSliderValue('hrs');
+            dataCategory = 'getHourly';
+        } else {
+            hrs = null;
+            dataCategory = null;
+        }
+        updateTemperature(dataCategory, hrs);
+        updateFeelLikeTemperature(dataCategory, hrs);
     }
 
     function updateForecastHourInfo() {
-        let hrs = processSliderValue('hrs');
-        let dataCategory = 'getHourly';
+        let dataCategory, hrs;
+        if(! (processSliderValue('hrs') === 0)) {
+            hrs = processSliderValue('hrs');
+            dataCategory = 'getHourly';
+        } else {
+            hrs = null;
+            dataCategory = null;
+        }
         updateAllDisplayValues(dataCategory, hrs);
     }
 
