@@ -231,20 +231,25 @@ const DOM = (function() {
         slider.setAttribute('id', 'forecastSlider');
         slider.setAttribute('type', 'range');
         slider.setAttribute('min', '0');
-        slider.setAttribute('max', '23');
+        slider.setAttribute('max', '1439');
         slider.setAttribute('value', '0');
         slider.setAttribute('step', 'any');
-        slider.addEventListener('change', sliderValueChanged);
+        slider.addEventListener('input', sliderValueChanged);
         sliderControlBody.appendChild(slider);
         let ticks = createSliderTicks(24); // no need to add the ticks to the list attribute of the slider since then it need to be changed each time hourly or daily selected.
         // slider.setAttribute('list', ticks.getAttribute('i'))
         sliderControlBody.appendChild(ticks);
     }
 
-    function sliderValueChanged(event) {
-        let sliderValue = event.target.value.split('.')[0];
-        console.log(sliderValue);
-        // update the display info on the hourly basis
+    function sliderValueChanged() {
+        // let sliderValue = event.target.value.split('.')[0];
+        // // console.log(sliderValue);
+        // let hrs = Math.floor(sliderValue / 60);
+        // let min = sliderValue % 60;
+        // min = min < 10 ? '0'+min : min;
+        // console.log(hrs+ ":"+ min);
+        // // update the display info on the hourly basis
+        updateControl(3);
     }
 
     return {

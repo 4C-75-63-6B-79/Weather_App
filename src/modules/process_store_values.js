@@ -70,7 +70,7 @@ const weather = (function() {
         let forecast24HourData = todayHourData.concat(tomorrowHourData);
         todayHourData = [];
         tomorrowHourData = [];
-        console.log(forecast24HourData);
+        // console.log(forecast24HourData);
         for(let hourData in forecast24HourData) {
             hourlyWeatherDataObjectFactory(forecast24HourData[hourData]);
         }
@@ -101,7 +101,7 @@ export default function weatherSet_Get(func, option) {
             weather.setHourlyForecast(option);
             break;
         case 'getHourly':
-            console.log(weather.getHourlyForecast(option.pos, option.attributeName)); 
+            return(weather.getHourlyForecast(option.hourIndex, option.attributeName)); 
         default:
             break;
     }
