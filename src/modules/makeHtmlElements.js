@@ -7,9 +7,11 @@ import humidity from "../assets/images/humidity.svg";
 import chanceOfRain from "../assets/images/chanceOfRain.svg";
 import windSpeed from "../assets/images/windSpeed.svg";
 import pressure from "../assets/images/pressure.svg";
+import rainDrop from "../assets/images/raindrop.svg";
+import wind from "../assets/images/wind.svg"; // for the forecast cards
 
 const DOM = (function() {
-    function makeDiv(id = null, className = null, textContent, dataAttribute, dataAttributeValue = '') {
+    function makeDiv(id = null, className = null, textContent, dataAttribute, dataAttributeValue = '', title =null) {
         let div = document.createElement('div');
         if(id) {
             div.setAttribute('id', id);
@@ -22,6 +24,9 @@ const DOM = (function() {
         }
         if(dataAttribute) {
             div.setAttribute(dataAttribute, dataAttributeValue);
+        }
+        if(title) {
+            div.setAttribute('title', title);
         }
         return div;
     }
@@ -224,16 +229,41 @@ const DOM = (function() {
         body.appendChild(forecastDayBody);
     }
 
+    function changeStyleOfTheForecastDayCardClicked(targetIndexNumber) {
+        let forecastDayCardClicked = document.getElementById(`${targetIndexNumber}dayForecastCard`);
+        let currentActiveForecastDayCard = document.querySelector('.activeForecastDayCard');
+        if(currentActiveForecastDayCard.classList.contains('activeForecastDayCard')) {
+            currentActiveForecastDayCard.classList.remove('activeForecastDayCard');
+            forecastDayCardClicked.classList.add('activeForecastDayCard');
+        }
+    }
+
+    function forecastDayCardClicked(event) {
+        let targetIndexNumber = event.target.getAttribute('id').split('')[0];
+        changeStyleOfTheForecastDayCardClicked(targetIndexNumber);
+        // console.log(event.target.getAttribute('id').split('')[0]);
+        // call updateInfo so that the display Info can be updated on clicked of forecastDay card
+    }
+
     function createForeCastDayCard(id) {
         const forecastDayBody = document.getElementById('forecastDayBody');
         let forecastDayCard = makeDiv(`${id}dayForecastCard`,'forecastDayCard');
-        let forecastDayName = makeDiv(`${id}dayForecastDayName`, null, `Day ${id}`, 'data-updateable', 'yes');
-        let forecastDayWeatherIcon = makeImage(`${id}dayForecastDayweatherIcon`); // this is make a image so dont pass the div function parameters
-        let forecastDayWeatherType = makeDiv(`${id}dayForecastDayweatherIcon`, null, `${id} Weather Type`, 'data-updateable', 'yes');
-        let forecastDayMaxTemp = makeDiv(`${id}dayForecastDayMaxTemp`, null, `${id} Max Temp #`, 'data-updateable', 'yes');
-        let forecastDayMinTemp = makeDiv(`${id}dayForecastDayMinTemp`, null, `${id} Min Temp #`, 'data-updateable', 'yes');
-        let forecastDayChanceOfRain = makeDiv(`${id}dayForecastDayChanceOfRain`, null, `${id} value %`, 'data-updateable', 'yes');
-        let forecastDayWindSpeed = makeDiv(`${id}dayForecastDayChanceOfRain`, null, `${id} value kph`, 'data-updateable', 'yes');
+        if(id === 0) {
+            forecastDayCard.classList.add('activeForecastDayCard');
+        }
+        forecastDayCard.addEventListener('click', forecastDayCardClicked);
+
+        let forecastDayName = makeDiv(`${id}dayForecastDayDayName`, 'forecastDayName', `Day ${id}`, 'data-updateable', 'yes');
+        let forecastDayWeatherIcon = makeImage(`${id}dayForecastDayWeatherIcon`); // this is make a image so dont pass the div function parameters
+        let forecastDayWeatherType = makeDiv(`${id}dayForecastDayWeatherType`, 'forecastDayWeatherType', `${id} Weather Type`, 'data-updateable', 'yes');
+        let forecastDayMaxTemp = makeDiv(`${id}dayForecastDayMaxTemp`, 'forecastDayMaxTemp', `${id} Max Temp #`, 'data-updateable', 'yes', 'Maximum Temperature');
+        let forecastDayMinTemp = makeDiv(`${id}dayForecastDayMinTemp`, 'forecastDayMinTemp', `${id} Min Temp #`, 'data-updateable', 'yes', 'Minimum Temperature');
+        let forecastDayChanceOfRain = makeDiv(`${id}dayForecastDayChanceOfRain`, 'forecastDayChanceOfRain', `${id} value %`, 'data-updateable', 'yes', 'Chance of Rain');
+        let rainImg = makeImage(`${id}rainImg`, rainDrop);
+        forecastDayChanceOfRain.appendChild(rainImg);
+        let forecastDayWindSpeed = makeDiv(`${id}dayForecastDayWindSpeed`, 'forecastDayWindSpeed', `${id} value kph`, 'data-updateable', 'yes', 'Wind Speed');
+        let windImg = makeImage(`${id}windImg`, wind);
+        forecastDayWindSpeed.appendChild(windImg);
 
         forecastDayCard.appendChild(forecastDayName);
         forecastDayCard.appendChild(forecastDayWeatherIcon);

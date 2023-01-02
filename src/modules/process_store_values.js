@@ -1,7 +1,7 @@
 
 
 const weather = (function() {
-    let currentWeatherAttributeValues, hourlyForecastWeatherAttributeValues;
+    let currentWeatherAttributeValues, currentDayHourlyForecastWeatherAttributeValues, forecastDayAttributeValues;
 
     function getCurrent(attributeName) {
         return currentWeatherAttributeValues[attributeName];
@@ -15,13 +15,13 @@ const weather = (function() {
             time: data.location.localtime.split(' ')[1],
             weatherIcon: data.current.condition.icon,
             temperature: {
-                'C': data.current.temp_c,
-                'F': data.current.temp_f,
+                'c': data.current.temp_c,
+                'f': data.current.temp_f,
             },
             weatherType: data.current.condition.text,
             feelsLike: {
-                C: data.current.feelslike_c,
-                F: data.current.feelslike_f,
+                c: data.current.feelslike_c,
+                f: data.current.feelslike_f,
             },
             humidity: data.current.humidity,
             chanceOfRain: data.forecast.forecastday['0'].hour[Number(data.location.localtime.split(' ')[1].split(':')[0])].chance_of_rain,
@@ -42,13 +42,13 @@ const weather = (function() {
             time: data.time.split(' ')[1],
             weatherIcon: data.condition.icon,
             temperature: {
-                'C': data.temp_c,
-                'F': data.temp_f,
+                'c': data.temp_c,
+                'f': data.temp_f,
             },
             weatherType: data.condition.text,
             feelsLike: {
-                C: data.feelslike_c,
-                F: data.feelslike_f,
+                c: data.feelslike_c,
+                f: data.feelslike_f,
             },
             humidity: data.humidity,
             chanceOfRain: data.chance_of_rain,
@@ -61,7 +61,7 @@ const weather = (function() {
                 in: data.pressure_mb,
             }
         }
-        hourlyForecastWeatherAttributeValues.push(object);
+        return object;
     }
 
     function setHourlyForecast(data) {
@@ -72,22 +72,76 @@ const weather = (function() {
         todayHourData = [];
         tomorrowHourData = [];
         // console.log(forecast24HourData);
-        hourlyForecastWeatherAttributeValues = [];
+        currentDayHourlyForecastWeatherAttributeValues = [];
         for(let hourData in forecast24HourData) {
-            hourlyWeatherDataObjectFactory(forecast24HourData[hourData]);
+            let object = hourlyWeatherDataObjectFactory(forecast24HourData[hourData]);
+            currentDayHourlyForecastWeatherAttributeValues.push(object);
         }
         // console.log(hourlyForecastWeatherAttributeValues);
     }
 
     function getHourlyForecast(pos, attributeName) {
-        return hourlyForecastWeatherAttributeValues[pos][attributeName];
+        return currentDayHourlyForecastWeatherAttributeValues[pos][attributeName];
     }
     
+    function averageForecastDataObjectFactory(data, index) {
+        let object = {
+            astro: {
+                moonrise: data.astro.moonrise,
+                moonset: data.astro.moonset,
+                sunrise: data.astro.sunrise,
+                sunset: data.astro.sunset,
+            },
+            average: {
+                DayName: data.date,
+                WeatherIcon: data.day.condition.icon,
+                WeatherType: data.day.condition.text,
+                MaxTemp: {
+                    c: data.day.maxtemp_c,
+                    f: data.day.maxtemp_f
+                },
+                MinTemp: {
+                    c: data.day.mintemp_c,
+                    f: data.day.mintemp_f
+                },
+                ChanceOfRain: data.day.daily_chance_of_rain,
+                WindSpeed: {
+                    kph: data.day.maxwind_kph,
+                    mph: data.day.maxwind_mph
+                }
+            },
+            hourly: [],
+        }
+        if(index === '0') {
+            // console.log('object returned');
+            return object;
+        }
+        for(let hourData in data.hour) {
+            object.hourly.push(hourlyWeatherDataObjectFactory(data.hour[hourData]));
+        }
+        return object;
+    }
+
+    function setDayForecast(data) {
+        let averageForecastData = data.forecast.forecastday;
+        forecastDayAttributeValues = [];
+        for(let data in averageForecastData) {
+            forecastDayAttributeValues.push(averageForecastDataObjectFactory(averageForecastData[data], data));          
+        }
+        // console.log(forecastDayAttributeValues);
+    }
+
+    function getAverageForeCast(dayIndex, attributeName) {
+        return forecastDayAttributeValues[Number(dayIndex)].average[attributeName];
+    }
+
     return {
         getCurrent,
         setCurrent,
-        setHourlyForecast,
+        setHourlyForecast, // for current day
         getHourlyForecast,
+        setDayForecast, // for day that are ahead of current days
+        getAverageForeCast,
     }
 
 })();
@@ -98,13 +152,15 @@ export default function weatherSet_Get(func, option) {
     switch(func) {
         case 'getCurrent':
             return weather.getCurrent(option);
-            break;
         case 'set':
             weather.setCurrent(option);
             weather.setHourlyForecast(option);
+            weather.setDayForecast(option);
             break;
         case 'getHourly':
-            return(weather.getHourlyForecast(option.hourIndex, option.attributeName)); 
+            return(weather.getHourlyForecast(option.hourIndex, option.attributeName));
+        case 'getAverage':
+            return(weather.getAverageForeCast(option.dayIndex, option.attributeName));
         default:
             break;
     }

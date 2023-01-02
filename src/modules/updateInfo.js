@@ -17,6 +17,7 @@ const update = (function() {
             updateLocation();
             updateForecastSliderValue();
             updateForeCastSliderLabels();
+            updateForecastDayBody();
             updateError();
         }
 
@@ -87,7 +88,7 @@ const update = (function() {
         let element = document.getElementById('temperature');
         let id = element.getAttribute('id');
         let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
-        let activeUnit = document.querySelector('.activeUnit').textContent.charAt(1);
+        let activeUnit = document.querySelector('.activeUnit').getAttribute('id').charAt(0);
         element.textContent = attributeValue[activeUnit];
     }
     
@@ -102,8 +103,8 @@ const update = (function() {
         let element = document.getElementById('feelsLike');
         let id = element.getAttribute('id');
         let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
-        let activeUnit = document.querySelector('.activeUnit').textContent.charAt(1);
-        element.textContent = attributeValue[activeUnit] + ' °' + activeUnit;
+        let activeUnit = document.querySelector('.activeUnit').getAttribute('id').charAt(0);
+        element.textContent = attributeValue[activeUnit] + ' °' + activeUnit.toUpperCase();
     }
 
     function updateHumidity(dataCategory, hrs) {
@@ -168,6 +169,7 @@ const update = (function() {
         }
         updateTemperature(dataCategory, hrs);
         updateFeelLikeTemperature(dataCategory, hrs);
+        updateForecastDayTemperatureUnit();
     }
 
     function updateForecastHourInfo() {
@@ -201,6 +203,80 @@ const update = (function() {
     function updateError(err) {
         const error = document.getElementById('error');
         error.textContent = err;
+    }
+
+    function updateForecastDayTemperatureUnit() {
+        let activeUnit = document.querySelector('.activeUnit').getAttribute('id').charAt(0);
+        let maxTemps = Array.from(document.getElementsByClassName('forecastDayMaxTemp'));
+        let minTemps = Array.from(document.getElementsByClassName('forecastDayMinTemp'));
+
+        for(let maxTemp in maxTemps) {
+            let element = maxTemps[maxTemp];
+            let dayIndex = element.getAttribute('id').split('dayForecastDay')[0];
+            let attributeName = element.getAttribute('id').split('dayForecastDay')[1];
+            let attributeValue = weatherSet_Get('getAverage', {dayIndex, attributeName});
+            element.textContent = attributeValue[activeUnit] + ' °' + activeUnit.toUpperCase();
+        }
+
+        for(let minTemp in minTemps) {
+            let element = minTemps[minTemp];
+            let dayIndex = element.getAttribute('id').split('dayForecastDay')[0];
+            let attributeName = element.getAttribute('id').split('dayForecastDay')[1];
+            let attributeValue = weatherSet_Get('getAverage', {dayIndex, attributeName});
+            element.textContent = attributeValue[activeUnit] + ' °' + activeUnit.toUpperCase();
+        }
+    }
+
+    function updateForecastDayCard(dayCard) {
+        // console.log(dayCard);
+        let splitValue = 'dayForecastDay';
+        let dayCardId = dayCard.getAttribute('id');
+        let dayIndex = dayCardId.charAt(0);
+        for(let child of dayCard.children) {
+            let attributeName = child.getAttribute('id').split(splitValue)[1];
+            // console.log(attributeName);
+            let attributeValue = weatherSet_Get('getAverage', {dayIndex, attributeName});
+            // this is not good practice sorry
+            switch(attributeName) {
+                case 'DayName':
+                    let day = formatDayDate(attributeValue);
+                    child.textContent = day.split(', ')[0];
+                    break;
+                case 'WeatherIcon': 
+                    child.src = attributeValue;
+                    break;
+                case 'WeatherType':
+                    child.textContent = attributeValue;
+                    break;
+                // case 'MaxTemp':
+                //     let activeUnit = document.querySelector('.activeUnit').getAttribute('id').charAt(0);
+                //     child.textContent = attributeValue[activeUnit] + ' °' + activeUnit.toUpperCase();
+                //     break;
+                case 'MinTemp':
+                    // let activeUni = document.querySelector('.activeUnit').getAttribute('id').charAt(0);
+                    // child.textContent = attributeValue[activeUni] + ' °' + activeUni.toUpperCase();
+                    updateForecastDayTemperatureUnit();
+                    break;
+                case 'ChanceOfRain':
+                    let chanceOfRainChild = child.lastChild;
+                    child.textContent = attributeValue + ' %';
+                    child.appendChild(chanceOfRainChild);
+                    break;
+                case 'WindSpeed':
+                    let windSpeedChild = child.lastChild;
+                    child.textContent = attributeValue['kph'] + ' kph';
+                    child.appendChild(windSpeedChild);
+                    break;
+            }
+        }
+    }
+
+    function  updateForecastDayBody(){
+        const forecastDayCards = Array.from(document.getElementsByClassName('forecastDayCard'));
+        // console.log(forecastDayCards);
+        for(let card in forecastDayCards) {
+            updateForecastDayCard(forecastDayCards[card]);
+        }
     }
 
     return {
