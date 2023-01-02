@@ -106,7 +106,7 @@ const DOM = (function() {
         if(!unitClicked.classList.contains('activeUnit')) {
             activeUnit.classList.remove('activeUnit');
             unitClicked.classList.add('activeUnit');
-            updateControl(2);
+            updateControl({functionCode: 2});
         }
     }
     
@@ -254,7 +254,7 @@ const DOM = (function() {
         // min = min < 10 ? '0'+min : min;
         // console.log(hrs+ ":"+ min);
         // // update the display info on the hourly basis
-        updateControl(3);
+        updateControl({functionCode: 3});
     }
 
     return {
@@ -285,6 +285,3 @@ export default function makeDom() {
         dom;
     }
 }
-
-
-

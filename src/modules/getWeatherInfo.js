@@ -11,9 +11,11 @@ export default async function getWeatherInfo(locationName) {
             let data = await response.json();
             console.log(data);
             weatherSet_Get('set', data);
-            updateControl(1);
+            updateControl({functionCode: 1});
         } else if(!response.ok) {
-            console.log('bad request');
+            // console.log('bad request');
+            let error = 'Sorry. Bad request. No location found with such name.';
+            updateControl({functionCode: 4, error});
         }
     } catch(err) {
         console.log('Error Happened');  

@@ -23,7 +23,7 @@ body {
 #leftInfoBody {
     display: flex;
     flex-direction: column;
-    max-width: 40%;
+    /* max-width: 40%; */
 }
 
 #location {
@@ -172,6 +172,7 @@ body {
 #sliderControlBody {
     padding: 1rem;
     display: flex;
+    margin-top: 1.5rem;
     flex-direction: column;
     align-items: flex-start;
 }
@@ -219,4 +220,32 @@ option {
     padding: .2rem 0.2rem 0.2rem 0.75rem;
     font-size: 1.1rem;
     font-weight: 650;
+}
+
+
+@media(max-width: 420px) {
+    #mainInfoBody {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-items: flex-start;
+        gap: 10px;
+    }
+
+    #rightInfoBody{
+        flex-direction: row;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .rightInfoSubBody {
+        flex-direction: column;
+        justify-content: space-between;
+        
+    }
+
+    option {
+        padding: .15rem;
+        font-size: 1.0rem;
+        font-weight: 500;
+    }
 }

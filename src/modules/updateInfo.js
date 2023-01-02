@@ -17,6 +17,7 @@ const update = (function() {
             updateLocation();
             updateForecastSliderValue();
             updateForeCastSliderLabels();
+            updateError();
         }
 
         updateDayDate(dataCategory, hrs);
@@ -197,19 +198,27 @@ const update = (function() {
         }
     }
 
+    function updateError(err) {
+        const error = document.getElementById('error');
+        error.textContent = err;
+    }
+
     return {
         updateAllDisplayValues,
         updateTemperatureUnitsChanged,
-        updateForecastHourInfo
+        updateForecastHourInfo,
+        updateError
     }
 })();
 
 export default function updateControl(option) {
-    if(option === 1) {
+    if(option.functionCode === 1) {
         update.updateAllDisplayValues();
-    } else if(option === 2) {
+    } else if(option.functionCode === 2) {
         update.updateTemperatureUnitsChanged();
-    } else if(option === 3) {
+    } else if(option.functionCode === 3) {
         update.updateForecastHourInfo();
+    } else if(option.functionCode === 4) {
+        update.updateError(option.error);
     }
 }
