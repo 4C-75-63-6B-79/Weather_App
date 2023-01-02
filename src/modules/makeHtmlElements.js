@@ -9,7 +9,7 @@ import windSpeed from "../assets/images/windSpeed.svg";
 import pressure from "../assets/images/pressure.svg";
 
 const DOM = (function() {
-    function makeDiv(id = null, className = null) {
+    function makeDiv(id = null, className = null, textContent, dataAttribute, dataAttributeValue = '') {
         let div = document.createElement('div');
         if(id) {
             div.setAttribute('id', id);
@@ -17,7 +17,22 @@ const DOM = (function() {
         if(className) {
             div.setAttribute('class', className);
         }
+        if(textContent) {
+            div.textContent = textContent;
+        }
+        if(dataAttribute) {
+            div.setAttribute(dataAttribute, dataAttributeValue);
+        }
         return div;
+    }
+
+    function makeImage(id=null, url=imgUrl) {
+        let img = new Image();
+        if(id) {
+            img.setAttribute('id', id);
+        }
+        img.src = url;
+        return img;
     }
     
     function createMainInfoBody() {
@@ -36,25 +51,25 @@ const DOM = (function() {
     
     function createLocationBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let locationBody = makeDiv('location');
-        locationBody.setAttribute('data-updateable', 'yes');
-        locationBody.textContent = 'Location';
+        let locationBody = makeDiv('location', null, 'Location', 'data-updateable', 'yes');
+        // locationBody.setAttribute('data-updateable', 'yes');
+        // locationBody.textContent = 'Location';
         leftInfoBody.appendChild(locationBody);
     }
     
     function createDayDateBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let dayDateBody = makeDiv('dayDate');
-        dayDateBody.setAttribute('data-updateable', 'yes');
-        dayDateBody.textContent = 'Day, Date';
+        let dayDateBody = makeDiv('dayDate', null, 'Day, Date', 'data-updateable', 'yes');
+        // dayDateBody.setAttribute('data-updateable', 'yes');
+        // dayDateBody.textContent = 'Day, Date';
         leftInfoBody.appendChild(dayDateBody);
     }
     
     function createTimeBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let timeBody = makeDiv('time');
-        timeBody.setAttribute('data-updateable', 'yes');
-        timeBody.textContent = 'Time';
+        let timeBody = makeDiv('time', null, 'Time', 'data-updateable', 'yes');
+        // timeBody.setAttribute('data-updateable', 'yes');
+        // timeBody.textContent = 'Time';
         leftInfoBody.appendChild(timeBody);
     }
     
@@ -66,18 +81,16 @@ const DOM = (function() {
     
     function createWeatherIcon() {
         const tempInfoBody = document.getElementById('tempInfoBody');
-        let weatherIcon = new Image();
-        weatherIcon.src = imgUrl;
-        weatherIcon.setAttribute('id', 'weatherIcon');
+        let weatherIcon = makeImage('weatherIcon');
         weatherIcon.setAttribute('data-updateable', 'yes');
         tempInfoBody.appendChild(weatherIcon);
     }
     
     function createTempValueBody() {
         const tempInfoBody = document.getElementById('tempInfoBody');
-        let tempValueBody = makeDiv('temperature');
-        tempValueBody.setAttribute('data-updateable', 'yes');
-        tempValueBody.textContent = '#';
+        let tempValueBody = makeDiv('temperature', null, '#', 'data-updateable', 'yes');
+        // tempValueBody.setAttribute('data-updateable', 'yes');
+        // tempValueBody.textContent = '#';
         tempInfoBody.appendChild(tempValueBody);
     }
     
@@ -89,13 +102,13 @@ const DOM = (function() {
     
     function createTempUnits() {
         const tempUnitBody = document.getElementById('tempUnitBody');
-        let celciusBody = makeDiv('celcius');
-        let farenheitBody = makeDiv('farenheit');
+        let celciusBody = makeDiv('celcius', 'activeUnit', '°C');
+        let farenheitBody = makeDiv('farenheit', null, '°F');
         celciusBody.addEventListener('click', tempUnitsClicked);
-        celciusBody.setAttribute('class', 'activeUnit');
+        // celciusBody.setAttribute('class', 'activeUnit');
         farenheitBody.addEventListener('click', tempUnitsClicked);
-        celciusBody.textContent = '°C';
-        farenheitBody.textContent = '°F';
+        // celciusBody.textContent = '°C';
+        // farenheitBody.textContent = '°F';
         tempUnitBody.appendChild(celciusBody);
         tempUnitBody.appendChild(farenheitBody);
     }
@@ -112,9 +125,9 @@ const DOM = (function() {
     
     function createWeatherTypeInfoBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let weatherTypeInfoBody = makeDiv('weatherType');
-        weatherTypeInfoBody.setAttribute('data-updateable', 'yes');
-        weatherTypeInfoBody.textContent = 'Weather Type';
+        let weatherTypeInfoBody = makeDiv('weatherType', null, 'Weather Type', 'data-updateable', 'yes');
+        // weatherTypeInfoBody.setAttribute('data-updateable', 'yes');
+        // weatherTypeInfoBody.textContent = 'Weather Type';
         leftInfoBody.appendChild(weatherTypeInfoBody);
     }
     
@@ -134,23 +147,22 @@ const DOM = (function() {
 
     function createErrorReporterBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let errorReporterBody = makeDiv('error');
-        errorReporterBody.setAttribute('data-updateable', 'yes');
-        errorReporterBody.textContent = '';
+        let errorReporterBody = makeDiv('error', null, '', 'data-updateable', 'yes');
+        // errorReporterBody.setAttribute('data-updateable', 'yes');
+        // errorReporterBody.textContent = '';
         leftInfoBody.appendChild(errorReporterBody);
     }
     
     function createRightInfoSubBody(id, infoTypeText, infoValueText, url) {
         const rightInfoBody = document.getElementById('rightInfoBody');
         let subBodyMain = makeDiv(null, 'rightInfoSubBody');
-        let img = new Image();
-        img.src = url;
+        let img = makeImage(null, url);
         let subBodyInfo = makeDiv(null, 'subBodyInfo');
-        let infoType = makeDiv(null, 'subBodyInfoType');
-        infoType.textContent = infoTypeText;
-        let infoValue = makeDiv(id, 'subBodyInfoValue');
-        infoValue.setAttribute('data-updateable', 'yes');
-        infoValue.textContent = infoValueText;
+        let infoType = makeDiv(null, 'subBodyInfoType', infoTypeText);
+        // infoType.textContent = infoTypeText;
+        let infoValue = makeDiv(id, 'subBodyInfoValue', infoValueText, 'data-updateable', 'yes');
+        // infoValue.setAttribute('data-updateable', 'yes');
+        // infoValue.textContent = infoValueText;
     
         subBodyInfo.appendChild(infoType);
         subBodyInfo.appendChild(infoValue);
@@ -172,50 +184,6 @@ const DOM = (function() {
         let sliderControlBody = makeDiv('sliderControlBody');
         body.appendChild(sliderControlBody);
     }
-
-    // function createSliderTypeControlBody() {
-    //     const slider_sliderControlBody = document.getElementById('sliderAndSliderTypeControlBody');
-    //     let sliderTypeControlBody = makeDiv('sliderTypeControlBody');
-    //     slider_sliderControlBody.appendChild(sliderTypeControlBody);
-    // }
-
-    // function createSliderTypeControls() {
-    //     const sliderTypeControlBody = document.getElementById('sliderTypeControlBody');
-    //     let dailySliderTypeControl = makeDiv('daily','sliderTypeControl');
-    //     let hourlySliderTypeControl = makeDiv('hourly', 'sliderTypeControl');
-    //     dailySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
-    //     hourlySliderTypeControl.addEventListener('click', sliderTypeControlClicked);
-    //     hourlySliderTypeControl.classList.add('activeSliderTypeControl');
-    //     dailySliderTypeControl.textContent = 'Daily';
-    //     hourlySliderTypeControl.textContent = 'Hourly';
-    //     sliderTypeControlBody.appendChild(hourlySliderTypeControl);
-    //     sliderTypeControlBody.appendChild(dailySliderTypeControl);
-    // }
-
-    // function sliderTypeControlClicked(event) {
-    //     // console.log(event.target);
-    //     changeActiveSliderTypeControl(event.target);
-    //     changeSliderRange();
-    // }
-
-    // function changeActiveSliderTypeControl(targetElement) {
-    //     const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
-    //     if(!targetElement.classList.contains('activeSliderTypeControl')) {
-    //         activeSliderTypeControl.classList.remove('activeSliderTypeControl');
-    //         targetElement.classList.add('activeSliderTypeControl');
-    //     }
-    // }  
-    
-    // function changeSliderRange() {
-    //     const activeSliderTypeControl = document.querySelector('.activeSliderTypeControl');
-    //     const forecastSlider = document.getElementById('forecastSlider');
-    //     forecastSlider.value = 0;
-    //     if(activeSliderTypeControl.getAttribute('id') === 'hourly') {
-    //         forecastSlider.setAttribute('max', '23');
-    //     } else if(activeSliderTypeControl.getAttribute('id') === 'daily') {
-    //         forecastSlider.setAttribute('max', '7');
-    //     }
-    // }
 
     function createSliderTicks() {
         let datalist = document.createElement('datalist');
@@ -247,14 +215,42 @@ const DOM = (function() {
     }
 
     function sliderValueChanged() {
-        // let sliderValue = event.target.value.split('.')[0];
-        // // console.log(sliderValue);
-        // let hrs = Math.floor(sliderValue / 60);
-        // let min = sliderValue % 60;
-        // min = min < 10 ? '0'+min : min;
-        // console.log(hrs+ ":"+ min);
-        // // update the display info on the hourly basis
         updateControl({functionCode: 3});
+    }
+
+    function createForecastDayBody() {
+        const body = document.querySelector('body');
+        let forecastDayBody = makeDiv('forecastDayBody');
+        body.appendChild(forecastDayBody);
+    }
+
+    function createForeCastDayCard(id) {
+        const forecastDayBody = document.getElementById('forecastDayBody');
+        let forecastDayCard = makeDiv(`${id}dayForecastCard`,'forecastDayCard');
+        let forecastDayName = makeDiv(`${id}dayForecastDayName`, null, `Day ${id}`, 'data-updateable', 'yes');
+        let forecastDayWeatherIcon = makeImage(`${id}dayForecastDayweatherIcon`); // this is make a image so dont pass the div function parameters
+        let forecastDayWeatherType = makeDiv(`${id}dayForecastDayweatherIcon`, null, `${id} Weather Type`, 'data-updateable', 'yes');
+        let forecastDayMaxTemp = makeDiv(`${id}dayForecastDayMaxTemp`, null, `${id} Max Temp #`, 'data-updateable', 'yes');
+        let forecastDayMinTemp = makeDiv(`${id}dayForecastDayMinTemp`, null, `${id} Min Temp #`, 'data-updateable', 'yes');
+        let forecastDayChanceOfRain = makeDiv(`${id}dayForecastDayChanceOfRain`, null, `${id} value %`, 'data-updateable', 'yes');
+        let forecastDayWindSpeed = makeDiv(`${id}dayForecastDayChanceOfRain`, null, `${id} value kph`, 'data-updateable', 'yes');
+
+        forecastDayCard.appendChild(forecastDayName);
+        forecastDayCard.appendChild(forecastDayWeatherIcon);
+        forecastDayCard.appendChild(forecastDayWeatherType);
+        forecastDayCard.appendChild(forecastDayMaxTemp);
+        forecastDayCard.appendChild(forecastDayMinTemp);
+        forecastDayCard.appendChild(forecastDayChanceOfRain);
+        forecastDayCard.appendChild(forecastDayWindSpeed);
+        forecastDayBody.appendChild(forecastDayCard);
+    }
+
+    function createAllForecastDayCard() {
+        // numberOfDayForecastDataAvailable depends on the number of day data that api is giving right now i have only 2 ahead day fore cast data so 2
+        let numberOfDayForecastDataAvailable = 3;
+        for(let i=0; i<numberOfDayForecastDataAvailable; i++) {
+            createForeCastDayCard(i);
+        }
     }
 
     return {
@@ -273,9 +269,9 @@ const DOM = (function() {
         13: createErrorReporterBody(),
         14: populateRightInfoBody(),
         15: createSilderBody(),
-        // 16: createSliderTypeControlBody(),
-        // 17: createSliderTypeControls(),
-        18: createSlider(),
+        16: createSlider(),
+        17: createForecastDayBody(),
+        18: createAllForecastDayCard(),
     };
 
 })();
