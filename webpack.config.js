@@ -33,7 +33,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Weather App',
+            title: 'Jank Weather Thing',
             filename: 'index.html',
             template: './src/template.html',
         }),
