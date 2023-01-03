@@ -21,16 +21,16 @@ const update = (function() {
             updateError();
         }
 
-        updateDayDate(dataCategory, hrs);
-        updateTime(dataCategory, hrs);
-        updateWeatherIcon(dataCategory, hrs);
-        updateTemperature(dataCategory, hrs);
-        updateWeatherType(dataCategory, hrs);
-        updateFeelLikeTemperature(dataCategory, hrs);
-        updateHumidity(dataCategory, hrs);
-        updateChanceOfRain(dataCategory, hrs);
-        updateWindSpeed(dataCategory, hrs);
-        updatePressure(dataCategory, hrs);
+        updateDayDate(dataCategory, hrs, dayIndex);
+        updateTime(dataCategory, hrs, dayIndex);
+        updateWeatherIcon(dataCategory, hrs, dayIndex);
+        updateTemperature(dataCategory, hrs, dayIndex);
+        updateWeatherType(dataCategory, hrs, dayIndex);
+        updateFeelLikeTemperature(dataCategory, hrs, dayIndex);
+        updateHumidity(dataCategory, hrs, dayIndex);
+        updateChanceOfRain(dataCategory, hrs, dayIndex);
+        updateWindSpeed(dataCategory, hrs, dayIndex);
+        updatePressure(dataCategory, hrs, dayIndex);
     }
 
     function updateLocation() {
@@ -53,17 +53,17 @@ const update = (function() {
         return weekdays[date.getDay()] + ", " + day + ', ' + months[date.getMonth()] + ' ' + date.getFullYear();
     }
     
-    function updateDayDate(dataCategory, hrs) {
+    function updateDayDate(dataCategory, hrs, day) {
         let element = document.getElementById('dayDate');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         element.textContent = formatDayDate(attributeValue);
     }
 
-    function updateTime(dataCategory, hrs){
+    function updateTime(dataCategory, hrs, day){
         let element = document.getElementById('time');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         // we want the time to update on change of the slider but the time on loading of new loaction should be taken from current
         // when the slider is changed we send the data category value then the value of time is updated according to the forecast slider value of time
         // when we change the slider in the current hour range we send null in data cat value then also the value of time need to be updated according to fore cast slider value
@@ -77,73 +77,75 @@ const update = (function() {
         element.textContent = attributeValue;
     }
     
-    function updateWeatherIcon(dataCategory, hrs) {
+    function updateWeatherIcon(dataCategory, hrs, day) {
         let element = document.getElementById('weatherIcon');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         element.src = attributeValue;
     }
     
-    function updateTemperature(dataCategory, hrs) {
+    function updateTemperature(dataCategory, hrs, day) {
         let element = document.getElementById('temperature');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         let activeUnit = document.querySelector('.activeUnit').getAttribute('id').charAt(0);
         element.textContent = attributeValue[activeUnit];
     }
     
-    function updateWeatherType(dataCategory, hrs) {
+    function updateWeatherType(dataCategory, hrs, day) {
         let element = document.getElementById('weatherType');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         element.textContent = attributeValue;
     }
 
-    function updateFeelLikeTemperature(dataCategory, hrs) {
+    function updateFeelLikeTemperature(dataCategory, hrs, day) {
         let element = document.getElementById('feelsLike');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         let activeUnit = document.querySelector('.activeUnit').getAttribute('id').charAt(0);
         element.textContent = attributeValue[activeUnit] + ' °' + activeUnit.toUpperCase();
     }
 
-    function updateHumidity(dataCategory, hrs) {
+    function updateHumidity(dataCategory, hrs, day) {
         let element = document.getElementById('humidity');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         element.textContent = attributeValue + " %";
     }
     
-    function updateChanceOfRain(dataCategory, hrs) {
+    function updateChanceOfRain(dataCategory, hrs, day) {
         let element = document.getElementById('chanceOfRain');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         element.textContent = attributeValue + " %";
     }
 
-    function updateWindSpeed(dataCategory, hrs) {
+    function updateWindSpeed(dataCategory, hrs, day) {
         let element = document.getElementById('windSpeed');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         element.textContent = attributeValue['kph'] + " kph";
     }
     
-    function updatePressure(dataCategory, hrs) {
+    function updatePressure(dataCategory, hrs, day) {
         let element = document.getElementById('pressure');
         let id = element.getAttribute('id');
-        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id}) || weatherSet_Get('getCurrent', id);
+        let attributeValue = weatherSet_Get(dataCategory, {hourIndex: hrs, attributeName: id, dayIndex: day}) || weatherSet_Get('getCurrent', id);
         element.textContent = attributeValue['mb'] + " mb";
     }
 
-    function updateForecastSliderValue() {
+    function updateForecastSliderValue(sliderValue) {
+        // slider value is undefined usually but when the forecast day card is clicked this is 0 since day starts at 0:00 hrs
         const forecastSlider = document.getElementById('forecastSlider');
-        let currentMin = Number(weatherSet_Get('getCurrent', 'time').split(':')[1]);
+        let currentMin = sliderValue || Number(weatherSet_Get('getCurrent', 'time').split(':')[1]);
+        // console.log(currentMin);
         forecastSlider.value = `${Number(currentMin)}`;
         // forecastSlider.value = '0';
     }
 
-    function updateForeCastSliderLabels() {
-        let currentHour = Number(weatherSet_Get('getCurrent', 'time').split(':')[0]);
+    function updateForeCastSliderLabels(firstSliderLable) {
+        let currentHour = firstSliderLable || Number(weatherSet_Get('getCurrent', 'time').split(':')[0]);
         let hourLabels = Array.from(document.querySelectorAll('option'));
         // console.log(hourLabels);
         for(let label in hourLabels) {
@@ -151,7 +153,7 @@ const update = (function() {
             if(label === '0' || label === '8') {
                 hourLabels[label].label = '';
             } else {
-                currentHour = currentHour + 3;
+                currentHour = Number(currentHour) + 3;
                 currentHour = currentHour > 23 ? currentHour%23-1 : currentHour;
                 hourLabels[label].label = currentHour < 10 ? `0${currentHour}:00` : `${currentHour}:00`;
             }
@@ -159,31 +161,47 @@ const update = (function() {
     }
 
     function updateTemperatureUnitsChanged() {
-        let dataCategory, hrs;
-        if(! (processSliderValue('hrs') === 0)) {
-            hrs = processSliderValue('hrs');
-            dataCategory = 'getHourly';
+        let dataCategory, hrs, dayIndex;
+        const activeForecastDayCardDayIndex = Number(document.querySelector('.activeForecastDayCard').getAttribute('id').charAt(0));
+        if(activeForecastDayCardDayIndex === 0) {  // here we are checking if the current day is selected so we get the hourly data but if not then dayHourly data
+            if(! (processSliderValue('hrs') === 0)) {
+                hrs = processSliderValue('hrs');
+                dataCategory = 'getHourly';
+            } else {
+                hrs = null;
+                dataCategory = null;
+            }
         } else {
-            hrs = null;
-            dataCategory = null;
+            hrs = processSliderValue('hrs');
+            dataCategory = 'getDayHourly';
+            dayIndex = activeForecastDayCardDayIndex;
         }
-        updateTemperature(dataCategory, hrs);
-        updateFeelLikeTemperature(dataCategory, hrs);
-        updateForecastDayTemperatureUnit();
-    }
+
+        updateTemperature(dataCategory, hrs, dayIndex);
+        updateFeelLikeTemperature(dataCategory, hrs, dayIndex);
+        updateForecastDayTemperatureUnit(); // this only updates the card temperature units so no attribute necessary as it is done in that function 
+    } 
 
     function updateForecastHourInfo() {
-        let dataCategory, hrs;
-        if(! (processSliderValue('hrs') === 0)) {
-            hrs = processSliderValue('hrs');
-            dataCategory = 'getHourly';
+        let dataCategory, hrs, dayIndex;
+        const activeForecastDayCardDayIndex = Number(document.querySelector('.activeForecastDayCard').getAttribute('id').charAt(0));
+        if(activeForecastDayCardDayIndex === 0) {
+            if(! (processSliderValue('hrs') === 0)) {
+                hrs = processSliderValue('hrs');
+                dataCategory = 'getHourly';
+            } else {
+                hrs = null;
+                dataCategory = null;
+            }
         } else {
-            hrs = null;
-            dataCategory = null;
+            hrs = processSliderValue('hrs');
+            dataCategory = 'getDayHourly';
+            dayIndex = activeForecastDayCardDayIndex;
         }
+
         // hrs = processSliderValue('hrs');
         // dataCategory = 'getHourly';
-        updateAllDisplayValues(dataCategory, hrs);
+        updateAllDisplayValues(dataCategory, hrs, dayIndex);
     }
 
     function processSliderValue(hrs_min) {
@@ -283,7 +301,12 @@ const update = (function() {
         if(dayIndex === 0) {
             updateAllDisplayValues();
         } else {
-            console.log(dayIndex);
+            // updating the slider value and the label values here since i was not able to find a solution to update them in updatealldisplay
+            // value function without using if and else which might make it jank and difficult to under stand with all the undefined
+            // and null values i am sending it to make it work which makes it already very jank so sorry
+            updateForecastSliderValue('0');
+            updateForeCastSliderLabels('0');
+            updateAllDisplayValues('getDayHourly', 0, Number(dayIndex));
         }
     }
 

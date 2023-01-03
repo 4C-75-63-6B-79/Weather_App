@@ -119,6 +119,7 @@ const weather = (function() {
         for(let hourData in data.hour) {
             object.hourly.push(hourlyWeatherDataObjectFactory(data.hour[hourData]));
         }
+        // console.log(object.hourly[1]);
         return object;
     }
 
@@ -136,7 +137,9 @@ const weather = (function() {
     }
 
     function getHourlyDailyForecastData(dayIndex, hourIndex, attributeName) {
-        return forecastDayAttributeValues[dayIndex].hourly[hourIndex].attributeName;
+        // console.log(attributeName);
+        // console.log(forecastDayAttributeValues[dayIndex].hourly[hourIndex][attributeName]);
+        return (forecastDayAttributeValues[dayIndex].hourly[hourIndex][attributeName]);
     }
 
     return {
@@ -167,7 +170,9 @@ export default function weatherSet_Get(func, option) {
         case 'getAverage':
             return(weather.getAverageForeCast(option.dayIndex, option.attributeName));
         case 'getDayHourly':
-            console.log(weather.getHourlyDailyForecastData(option.dayIndex, option.hourIndex, option.attributeNmae))
+            // console.log(weather.getHourlyDailyForecastData(option.dayIndex, option.hourIndex, option.attributeName));
+            // console.log(option.attributeName);
+            return weather.getHourlyDailyForecastData(option.dayIndex, option.hourIndex, option.attributeName);
         default:
             break;
     }
