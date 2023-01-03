@@ -56,7 +56,7 @@ const DOM = (function() {
     
     function createLocationBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let locationBody = makeDiv('location', null, 'Location', 'data-updateable', 'yes');
+        let locationBody = makeDiv('location', null, 'Location', 'data-updateable', 'yes', 'Location Name');
         // locationBody.setAttribute('data-updateable', 'yes');
         // locationBody.textContent = 'Location';
         leftInfoBody.appendChild(locationBody);
@@ -64,7 +64,7 @@ const DOM = (function() {
     
     function createDayDateBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let dayDateBody = makeDiv('dayDate', null, 'Day, Date', 'data-updateable', 'yes');
+        let dayDateBody = makeDiv('dayDate', null, 'Day, Date', 'data-updateable', 'yes', 'Day and Date');
         // dayDateBody.setAttribute('data-updateable', 'yes');
         // dayDateBody.textContent = 'Day, Date';
         leftInfoBody.appendChild(dayDateBody);
@@ -72,7 +72,7 @@ const DOM = (function() {
     
     function createTimeBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let timeBody = makeDiv('time', null, 'Time', 'data-updateable', 'yes');
+        let timeBody = makeDiv('time', null, 'Time', 'data-updateable', 'yes', 'Time in 24 hr format');
         // timeBody.setAttribute('data-updateable', 'yes');
         // timeBody.textContent = 'Time';
         leftInfoBody.appendChild(timeBody);
@@ -88,12 +88,13 @@ const DOM = (function() {
         const tempInfoBody = document.getElementById('tempInfoBody');
         let weatherIcon = makeImage('weatherIcon');
         weatherIcon.setAttribute('data-updateable', 'yes');
+        weatherIcon.setAttribute('title', 'Weather Icon');
         tempInfoBody.appendChild(weatherIcon);
     }
     
     function createTempValueBody() {
         const tempInfoBody = document.getElementById('tempInfoBody');
-        let tempValueBody = makeDiv('temperature', null, '#', 'data-updateable', 'yes');
+        let tempValueBody = makeDiv('temperature', null, '#', 'data-updateable', 'yes', 'Temperature in °C');
         // tempValueBody.setAttribute('data-updateable', 'yes');
         // tempValueBody.textContent = '#';
         tempInfoBody.appendChild(tempValueBody);
@@ -107,8 +108,8 @@ const DOM = (function() {
     
     function createTempUnits() {
         const tempUnitBody = document.getElementById('tempUnitBody');
-        let celciusBody = makeDiv('celcius', 'activeUnit', '°C');
-        let farenheitBody = makeDiv('farenheit', null, '°F');
+        let celciusBody = makeDiv('celcius', 'activeUnit', '°C', null, null, 'Celcius');
+        let farenheitBody = makeDiv('farenheit', null, '°F', null, null, 'Farenheit');
         celciusBody.addEventListener('click', tempUnitsClicked);
         // celciusBody.setAttribute('class', 'activeUnit');
         farenheitBody.addEventListener('click', tempUnitsClicked);
@@ -121,6 +122,8 @@ const DOM = (function() {
     function tempUnitsClicked(event) {
         let unitClicked = event.target;
         let activeUnit = document.querySelector('.activeUnit');
+        const temp = document.getElementById('temperature');
+        temp.setAttribute('title', `Temperature in °${unitClicked.getAttribute('id').charAt(0).toUpperCase()}`);
         if(!unitClicked.classList.contains('activeUnit')) {
             activeUnit.classList.remove('activeUnit');
             unitClicked.classList.add('activeUnit');
@@ -130,7 +133,7 @@ const DOM = (function() {
     
     function createWeatherTypeInfoBody() {
         const leftInfoBody = document.getElementById('leftInfoBody');
-        let weatherTypeInfoBody = makeDiv('weatherType', null, 'Weather Type', 'data-updateable', 'yes');
+        let weatherTypeInfoBody = makeDiv('weatherType', null, 'Weather Type', 'data-updateable', 'yes', 'Weather Condition');
         // weatherTypeInfoBody.setAttribute('data-updateable', 'yes');
         // weatherTypeInfoBody.textContent = 'Weather Type';
         leftInfoBody.appendChild(weatherTypeInfoBody);
@@ -165,7 +168,7 @@ const DOM = (function() {
         let subBodyInfo = makeDiv(null, 'subBodyInfo');
         let infoType = makeDiv(null, 'subBodyInfoType', infoTypeText);
         // infoType.textContent = infoTypeText;
-        let infoValue = makeDiv(id, 'subBodyInfoValue', infoValueText, 'data-updateable', 'yes');
+        let infoValue = makeDiv(id, 'subBodyInfoValue', infoValueText, 'data-updateable', 'yes', infoTypeText);
         // infoValue.setAttribute('data-updateable', 'yes');
         // infoValue.textContent = infoValueText;
     
@@ -254,9 +257,9 @@ const DOM = (function() {
         }
         forecastDayCard.addEventListener('click', forecastDayCardClicked);
 
-        let forecastDayName = makeDiv(`${id}dayForecastDayDayName`, 'forecastDayName', `Day ${id}`, 'data-updateable', 'yes');
+        let forecastDayName = makeDiv(`${id}dayForecastDayDayName`, 'forecastDayName', `Day ${id}`, 'data-updateable', 'yes', 'Day');
         let forecastDayWeatherIcon = makeImage(`${id}dayForecastDayWeatherIcon`); // this is make a image so dont pass the div function parameters
-        let forecastDayWeatherType = makeDiv(`${id}dayForecastDayWeatherType`, 'forecastDayWeatherType', `${id} Weather Type`, 'data-updateable', 'yes');
+        let forecastDayWeatherType = makeDiv(`${id}dayForecastDayWeatherType`, 'forecastDayWeatherType', `${id} Weather Type`, 'data-updateable', 'yes', 'Weather Condition');
         let forecastDayMaxTemp = makeDiv(`${id}dayForecastDayMaxTemp`, 'forecastDayMaxTemp', `${id} Max Temp #`, 'data-updateable', 'yes', 'Maximum Temperature');
         let forecastDayMinTemp = makeDiv(`${id}dayForecastDayMinTemp`, 'forecastDayMinTemp', `${id} Min Temp #`, 'data-updateable', 'yes', 'Minimum Temperature');
         let forecastDayChanceOfRain = makeDiv(`${id}dayForecastDayChanceOfRain`, 'forecastDayChanceOfRain', `${id} value %`, 'data-updateable', 'yes', 'Chance of Rain');
