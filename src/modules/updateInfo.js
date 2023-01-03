@@ -2,7 +2,7 @@ import weatherSet_Get from "./process_store_values";
 
 const update = (function() {
 
-    function updateAllDisplayValues(dataCategory, hrs) {
+    function updateAllDisplayValues(dataCategory, hrs, dayIndex) {
         // console.log(dataCategory + ' ' + hrs);
 
         // we don't want these functions to be called when we are changing the slider value
@@ -279,11 +279,20 @@ const update = (function() {
         }
     }
 
+    function updateDisplayValueAccordingToForecastDayCardClicked(dayIndex) {
+        if(dayIndex === 0) {
+            updateAllDisplayValues();
+        } else {
+            console.log(dayIndex);
+        }
+    }
+
     return {
         updateAllDisplayValues,
         updateTemperatureUnitsChanged,
         updateForecastHourInfo,
-        updateError
+        updateError,
+        updateDisplayValueAccordingToForecastDayCardClicked,
     }
 })();
 
@@ -296,5 +305,7 @@ export default function updateControl(option) {
         update.updateForecastHourInfo();
     } else if(option.functionCode === 4) {
         update.updateError(option.error);
+    } else if(option.functionCode === 5) {
+        update.updateDisplayValueAccordingToForecastDayCardClicked(option.dayIndex);
     }
 }

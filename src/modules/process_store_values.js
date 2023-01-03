@@ -135,6 +135,10 @@ const weather = (function() {
         return forecastDayAttributeValues[Number(dayIndex)].average[attributeName];
     }
 
+    function getHourlyDailyForecastData(dayIndex, hourIndex, attributeName) {
+        return forecastDayAttributeValues[dayIndex].hourly[hourIndex].attributeName;
+    }
+
     return {
         getCurrent,
         setCurrent,
@@ -142,6 +146,7 @@ const weather = (function() {
         getHourlyForecast,
         setDayForecast, // for day that are ahead of current days
         getAverageForeCast,
+        getHourlyDailyForecastData,
     }
 
 })();
@@ -161,6 +166,8 @@ export default function weatherSet_Get(func, option) {
             return(weather.getHourlyForecast(option.hourIndex, option.attributeName));
         case 'getAverage':
             return(weather.getAverageForeCast(option.dayIndex, option.attributeName));
+        case 'getDayHourly':
+            console.log(weather.getHourlyDailyForecastData(option.dayIndex, option.hourIndex, option.attributeNmae))
         default:
             break;
     }

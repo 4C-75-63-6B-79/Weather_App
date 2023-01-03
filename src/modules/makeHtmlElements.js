@@ -243,6 +243,7 @@ const DOM = (function() {
         changeStyleOfTheForecastDayCardClicked(targetIndexNumber);
         // console.log(event.target.getAttribute('id').split('')[0]);
         // call updateInfo so that the display Info can be updated on clicked of forecastDay card
+        updateControl({functionCode: 5, dayIndex: Number(targetIndexNumber)});
     }
 
     function createForeCastDayCard(id) {
