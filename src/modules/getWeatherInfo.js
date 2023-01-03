@@ -9,7 +9,7 @@ export default async function getWeatherInfo(locationName) {
         if(response.status == '200') {
             // console.log(response);
             let data = await response.json();
-            console.log(data);
+            // console.log(data);
             weatherSet_Get('set', data);
             updateControl({functionCode: 1});
         } else if(!response.ok) {
