@@ -18,6 +18,7 @@ const update = (function() {
             updateForecastSliderValue();
             updateForeCastSliderLabels();
             updateForecastDayBody();
+            updateActiveForecastDayCard()
             updateError();
         }
 
@@ -309,6 +310,16 @@ const update = (function() {
             updateAllDisplayValues('getDayHourly', 0, Number(dayIndex));
         }
     }
+    
+    function updateActiveForecastDayCard() {
+        const activeForecastDay = document.querySelector('.activeForecastDayCard');
+        const currentDayCard = document.getElementById('0dayForecastCard');
+        if(! currentDayCard.classList.contains('activeForecastDayCard')) {
+            activeForecastDay.classList.remove('activeForecastDayCard');
+            currentDayCard.classList.add('activeForecastDayCard');
+        }
+    }
+
 
     return {
         updateAllDisplayValues,
