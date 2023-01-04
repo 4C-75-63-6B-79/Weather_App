@@ -36,6 +36,7 @@ module.exports = {
             title: 'Jank Weather Thing',
             filename: 'index.html',
             template: './src/template.html',
+            favicon: "./src/assets/images/sun.png",
         }),
     ],
     optimization: {
