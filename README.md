@@ -16,4 +16,6 @@ This is jank thing because the things can be improved a lot and person who reall
 8. To change the background color I am getting the differnce in current time to time to sunrise and sunset. And when any of the 2 values are in range go 30 min then the transition to that color happens form the hex values in the array stored.
 9. Color of day and night may not be accurate as to the day weather and not accurate according to the color people to so it is what it is.
 10. sunset and sunrise color transition is very small as 30 min on slider very fast so not that good but you can see if you slowly move the slider. It can be fixed if we expand those 30 min.
+11. The color palette for the night sunrise noon sunset is here https://colordesigner.io/color-mixer/?mode=rgb#BEA9DE%7B0%7D-87889C%7B0%7D-546BAB%7B0%7D-2E4482%7B0%7D-131862%7B0%7D-FFA700%7B2%7D-FF8100%7B2%7D-FF6700%7B2%7D-FF4D00%7B1%7D-FF0000%7B2%7D-00ADFF%7B0%7D-27B9FF%7B0%7D-33BEFF%7B0%7D-4BC5FF%7B0%7D-6BCFFF%7B0%7D-6A0D83%7B0%7D-CE4993%7B0%7D-EE5D6C%7B0%7D-FB9062%7B0%7D-EEAF61%7B0%7D
+12. To create the gradient this website was used https://colordesigner.io/gradient-generator
 
