@@ -23,7 +23,7 @@ const updateBackgroundColor = (function() {
 
     function updateBackgroundColorVariable() {
         let color = getBackgroundColor();
-        console.log(color);
+        // console.log(color);
         document.documentElement.style.setProperty('--background-color', color);
     }
 
@@ -115,34 +115,34 @@ const updateBackgroundColor = (function() {
         // console.log(object);
         const timeToSunrise = object.timeToSunrise;
         const timeToSunset = object.timeToSunset;
-        console.log(timeToSunrise, timeToSunset);
+        // console.log(timeToSunrise, timeToSunset);
 
         if(timeToSunrise > -1 && timeToSunset > -1) {
-            console.log('Before Sunrise and after midnight');
+            // console.log('Before Sunrise and after midnight');
             if(timeToSunrise < 30) {
-                console.log('transition period from night to sunrise');
+                // console.log('transition period from night to sunrise');
                 // we are doing 29 - sunrise time because at index 0 it is night hex value so we want the hex value of sunrise when time to sunrise is 0 so we are doing this.
                 return transitionFormNightToSunrise[29 - timeToSunrise]; 
             } else {
                 return nightColor;
             }
         } else if(timeToSunrise < 0 && timeToSunset > -1) {
-            console.log('Between Sunrise and Sunset');
+            // console.log('Between Sunrise and Sunset');
             if(timeToSunrise < 0 && timeToSunrise >= -30) {
-                console.log('transition period from sunrise to noon');
+                // console.log('transition period from sunrise to noon');
                 // we are multiplying with -1 here since time to sunrise is negative and subrating -1 since index starts from 0 to 29
                 return transitionFromSunriseToNoon[(timeToSunrise) * (-1) - 1]
             } else if(timeToSunset < 30) {
-                console.log('transition period from noon to sunset');
+                // console.log('transition period from noon to sunset');
                 // the reason for 29 - time is same as the transition from night to sunrise as the 0 index is actually noon hex value and 29 is sunset. So to get correct value 
                 return transitionFromNoonToSunset[29 - timeToSunset];
             } else {
                 return dayColor;
             }
         } else if(timeToSunrise < 0 && timeToSunset < 0) {
-            console.log('After sunset before midnight');
+            // console.log('After sunset before midnight');
             if(timeToSunset < 0 && timeToSunset >= -30) {
-                console.log('transition period from sunset to night');
+                // console.log('transition period from sunset to night');
                 // we are multiplying with -1 here since time to sunset is negative and subrating -1 since index starts from 0 to 29
                 return transitionFromSunsetToNight[(timeToSunset) * (-1) -1];
             } else {
