@@ -1,4 +1,5 @@
 import weatherSet_Get from "./process_store_values";
+import updateBackground from "./background.js";
 
 const update = (function() {
 
@@ -32,6 +33,7 @@ const update = (function() {
         updateChanceOfRain(dataCategory, hrs, dayIndex);
         updateWindSpeed(dataCategory, hrs, dayIndex);
         updatePressure(dataCategory, hrs, dayIndex);
+        updateBackground();
     }
 
     function updateLocation() {

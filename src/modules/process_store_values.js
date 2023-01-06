@@ -142,6 +142,12 @@ const weather = (function() {
         return (forecastDayAttributeValues[dayIndex].hourly[hourIndex][attributeName]);
     }
 
+    function getAstroData(dayIndex) {
+        // console.log(dayIndex)
+        // console.log(forecastDayAttributeValues);
+        return forecastDayAttributeValues[dayIndex]['astro'];
+    }
+
     return {
         getCurrent,
         setCurrent,
@@ -150,6 +156,7 @@ const weather = (function() {
         setDayForecast, // for day that are ahead of current days
         getAverageForeCast,
         getHourlyDailyForecastData,
+        getAstroData,
     }
 
 })();
@@ -173,6 +180,8 @@ export default function weatherSet_Get(func, option) {
             // console.log(weather.getHourlyDailyForecastData(option.dayIndex, option.hourIndex, option.attributeName));
             // console.log(option.attributeName);
             return weather.getHourlyDailyForecastData(option.dayIndex, option.hourIndex, option.attributeName);
+        case 'getAstro':
+            return weather.getAstroData(Number(option.dayIndex));
         default:
             break;
     }
