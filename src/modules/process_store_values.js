@@ -8,7 +8,6 @@ const weather = (function() {
     }
 
     function setCurrent(data) {
-        currentWeatherAttributeValues = {};
         currentWeatherAttributeValues = {
             location: data.location.name,
             dayDate: data.location.localtime.split(' ')[0],
@@ -69,8 +68,6 @@ const weather = (function() {
         let todayHourData = data.forecast.forecastday[0].hour.slice(Number(currentHour));
         let tomorrowHourData = data.forecast.forecastday[1].hour.slice(0,Number(currentHour));
         let forecast24HourData = todayHourData.concat(tomorrowHourData);
-        todayHourData = [];
-        tomorrowHourData = [];
         // console.log(forecast24HourData);
         currentDayHourlyForecastWeatherAttributeValues = [];
         for(let hourData in forecast24HourData) {
