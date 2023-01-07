@@ -287,31 +287,33 @@ const DOM = (function() {
         }
     }
 
+    function startMakingDomElements() {
+        createMainInfoBody();
+        createLeftRightInfoBody();
+        createLocationBody();
+        createDayDateBody();
+        createTimeBody();
+        createTempInfoBody();
+        createWeatherIcon();
+        createTempValueBody();
+        createTempUnitBody();
+        createTempUnits();
+        createWeatherTypeInfoBody();
+        createSearchBox();
+        createErrorReporterBody();
+        populateRightInfoBody();
+        createSilderBody();
+        createSlider();
+        createForecastDayBody();
+        createAllForecastDayCard();
+    }
+
     return {
-        1: createMainInfoBody(),
-        2: createLeftRightInfoBody(),
-        3: createLocationBody(),
-        4: createDayDateBody(),
-        5: createTimeBody(),
-        6: createTempInfoBody(),
-        7: createWeatherIcon(),
-        8: createTempValueBody(),
-        9: createTempUnitBody(),
-        10: createTempUnits(),
-        11: createWeatherTypeInfoBody(),
-        12: createSearchBox(),
-        13: createErrorReporterBody(),
-        14: populateRightInfoBody(),
-        15: createSilderBody(),
-        16: createSlider(),
-        17: createForecastDayBody(),
-        18: createAllForecastDayCard(),
-    };
+        startMakingDomElements,
+    }
 
 })();
 
 export default function makeDom() {
-    for(let dom in DOM) {
-        dom;
-    }
+    DOM.startMakingDomElements();
 }
