@@ -1,6 +1,6 @@
 # Jank Weather Thing
 
-### Live Link (**Jank Weather Thing**)[https://4c-75-63-6b-79.github.io/Weather_App/]
+### Live Link [**Jank Weather Thing**](https://4c-75-63-6b-79.github.io/Weather_App/)
 
 ### Description
 This is the assignment under **The Odin Porject**. In this assignment I was supposed to make a weather app that get the weather details of the location that user enters. Assignment also told us to add some kind of way to display the weather forecast. To do this I incorporated slider which provide the weather forecast for next 24 hrs. The idea of slider I got form the Microsoft edge weather thing. The edge weather thing also updates the background according to the time of day and weather type mine does not. Assignment mentioned to use any free weather api. This solution to the assignment is not the best and can be improved a lot.
